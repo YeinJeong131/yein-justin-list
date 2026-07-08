@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Our Bucket List 💗🎤</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffe6f0, #fff8fb);
+  color: #4a2c35;
+  overflow-x: hidden;
+}
+
+/* Opening screen */
+.open-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #ffdbe9, #fff7fb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  transition: 0.8s;
+}
+
+.open-screen.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.open-box {
+  text-align: center;
+  background: rgba(255,255,255,0.7);
+  padding: 40px 30px;
+  border-radius: 35px;
+  box-shadow: 0 15px 40px rgba(255, 105, 160, 0.25);
+}
+
+.main-mic {
+  font-size: 72px;
+  margin-bottom: 15px;
+  animation: glow 1.5s infinite alternate;
+}
+
+.open-box h1 {
+  color: #ff5f9f;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.open-box p {
+  color: #9b6074;
+  margin-bottom: 25px;
+}
+
+.open-btn {
+  border: none;
+  background: #ff6fa8;
+  color: white;
+  padding: 14px 34px;
+  border-radius: 999px;
+  font-size: 17px;
+  box-shadow: 0 8px 20px rgba(255, 105, 160, 0.35);
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 8px #ff9ac5; }
+  to { text-shadow: 0 0 25px #ff4f9b; transform: scale(1.05); }
+}
+
+/* Main */
+.container {
+  width: 100%;
+  max-width: 560px;
+  margin: auto;
+  padding: 35px 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  background: rgba(255,255,255,0.88);
+  border-radius: 32px;
+  padding: 28px 22px;
+  box-shadow: 0 15px 45px rgba(255, 120, 170, 0.22);
+  backdrop-filter: blur(8px);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.mic {
+  font-size: 62px;
+  animation: glow 1.8s infinite alternate;
+}
+
+h2 {
+  color: #ff5f9f;
+  font-size: 32px;
+  margin-top: 8px;
+}
+
+.names {
+  color: #9b6074;
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.quote {
+  color: #b07b8d;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* Progress */
+.progress-wrap {
+  margin: 22px 0 25px;
+}
+
+.progress-title {
+  text-align: center;
+  color: #ff6fa8;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 12px;
+  background: #ffe1ec;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff78ad, #ff9bc8);
+  border-radius: 999px;
+  transition: 0.4s ease;
+}
+
+.count {
+  text-align: center;
+  margin-top: 8px;
+  color: #9b6074;
+  font-size: 14px;
+}
+
+/* List */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff2f7;
+  margin: 12px 0;
+  padding: 15px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.25s;
+  position: relative;
+}
+
+.item:hover {
+  transform: translateY(-2px);
+  background: #ffe6f0;
+}
+
+.heart-check {
+  font-size: 24px;
+  width: 30px;
+  text-align: center;
+}
+
+.item-text {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.item.done .heart-check {
+  animation: pop 0.35s ease;
+}
+
+.item.done .item-text {
+  color: #ff5f9f;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.7); }
+  70% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 28px;
+  color: #9b6074;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.footer-mic {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+/* Falling sakura */
+.sakura {
+  position: fixed;
+  top: -30px;
+  font-size: 20px;
+  z-index: 1;
+  animation: fall linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+/* Floating hearts */
+.float-heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 16px;
+  opacity: 0.5;
+  animation: floatUp linear infinite;
+  z-index: 1;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+/* Click heart effect */
+.burst {
+  position: fixed;
+  pointer-events: none;
+  font-size: 22px;
+  animation: burstUp 0.9s ease-out forwards;
+  z-index: 1000;
+}
+
+@keyframes burstUp {
+  0% {
+    transform: translateY(0) scale(0.7);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px) scale(1.4);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="open-screen" id="openScreen">
+  <div class="open-box">
+    <div class="main-mic">🎤</div>
+    <h1>For Justin 내 남친 💗</h1>
+    <p>오빠랑 같이 만들고 싶은 추억들 💗</p>
+    <button class="open-btn" onclick="openPage()">Tap to Open</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card">
+
+    <div class="header">
+      <div class="mic">🎤</div>
+      <h2>내가 호주 돌아가면 같이 할 거 🇦🇺💗</h2>
+      <div class="names">Yein ♡ Justin</div>
+      <div class="quote">Let’s make every ordinary day feel special.</div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-title">💗 Our Memories</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="count" id="count">0 / 13 Memories Completed</div>
+    </div>
+
+    <div id="list"></div>
+
+    <div class="footer">
+      <div class="footer-mic">🎤💗</div>
+      Every checked heart becomes another memory.<br>
+      I can’t wait to do all of these with you.
+    </div>
+
+  </div>
+</div>
+
+<script>
+const items = [
+  "🍪 같이 쿠키 만들기",
+  "🛒 베이킹할 거 장보기",
+  "🍜 쌀국수 먹으러 가기",
+  "🕷️ 스파이더맨 영화 보기",
+  "📚 State Library 한 번 더 가기",
+  "🐨 동물원 가기",
+  "🎬 같이 집에서 영화 보기",
+  "📹 커플 브이로그 찍어서 편집해보기 - 소장용",
+  "🌊 바다 놀러가기",
+  "🧸 커플 잠옷 사기",
+  "🏋🏻 같이 헬스장 가보기",
+  "☕ 카페에서 공부 같이하기",
+  "🎄 July Christmas 이벤트 가기"
+];
+
+const list = document.getElementById("list");
+const progressFill = document.getElementById("progressFill");
+const count = document.getElementById("count");
+
+let saved = JSON.parse(localStorage.getItem("bucketListHearts")) || [];
+
+items.forEach((text, index) => {
+  const div = document.createElement("div");
+  div.className = "item";
+  div.innerHTML = `
+    <div class="heart-check">🤍</div>
+    <div class="item-text">${text}</div>
+  `;
+
+  if (saved.includes(index)) {
+    div.classList.add("done");
+    div.querySelector(".heart-check").textContent = "💖";
+  }
+
+  div.addEventListener("click", function(e) {
+    div.classList.toggle("done");
+
+    if (div.classList.contains("done")) {
+      div.querySelector(".heart-check").textContent = "💖";
+      createBurst(e.clientX, e.clientY);
+    } else {
+      div.querySelector(".heart-check").textContent = "🤍";
+    }
+
+    saveState();
+    updateProgress();
+  });
+
+  list.appendChild(div);
+});
+
+function saveState() {
+  const doneItems = document.querySelectorAll(".item.done");
+  saved = [...doneItems].map(item => [...document.querySelectorAll(".item")].indexOf(item));
+  localStorage.setItem("bucketListHearts", JSON.stringify(saved));
+}
+
+function updateProgress() {
+  const completed = document.querySelectorAll(".item.done").length;
+  const percent = (completed / items.length) * 100;
+  progressFill.style.width = percent + "%";
+  count.textContent = `${completed} / ${items.length} Memories Completed`;
+}
+
+function createBurst(x, y) {
+  const hearts = ["💗", "💕", "💖", "🌸"];
+
+  for (let i = 0; i < 8; i++) {
+    const heart = document.createElement("div");
+    heart.className = "burst";
+    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    heart.style.left = x + (Math.random() * 70 - 35) + "px";
+    heart.style.top = y + (Math.random() * 30 - 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 900);
+  }
+}
+
+function openPage() {
+  document.getElementById("openScreen").classList.add("hide");
+}
+
+function createSakura() {
+  const flower = document.createElement("div");
+  flower.className = "sakura";
+  flower.textContent = Math.random() > 0.5 ? "🌸" : "💗";
+  flower.style.left = Math.random() * 100 + "vw";
+  flower.style.animationDuration = 6 + Math.random() * 6 + "s";
+  flower.style.fontSize = 16 + Math.random() * 12 + "px";
+  document.body.appendChild(flower);
+
+  setTimeout(() => flower.remove(), 12000);
+}
+
+function createFloatingHeart() {
+  const heart = document.createElement("div");
+  heart.className = "float-heart";
+  heart.textContent = "💕";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = 8 + Math.random() * 8 + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 16000);
+}
+
+setInterval(createSakura, 600);
+setInterval(createFloatingHeart, 1500);
+
+updateProgress();
+</script>
+
+</body>
+</html>
